@@ -5,5 +5,5 @@ type PostProduct struct {
 	ProductName        string   `json:"product_name" binding:"required"`
 	ProductDescription string   `json:"product_description" binding:"required"`
 	ProductImages      []string `json:"product_images" binding:"required"`
-	ProductPrice       int      `json:"product_price" binding:"required"`
+	ProductPrice       float64  `json:"product_price" binding:"required"`
 }
