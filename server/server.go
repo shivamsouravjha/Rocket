@@ -2,12 +2,11 @@ package server
 
 import (
 	rabbitMQ "rocket/helper/rabbitmq"
-
-	"github.com/gin-gonic/gin"
+	"rocket/routes"
 )
 
 func Init() {
 	go rabbitMQ.Run("image")
-	r := gin.New()
+	r := routes.NewRouter()
 	r.Run(":8080")
 }
