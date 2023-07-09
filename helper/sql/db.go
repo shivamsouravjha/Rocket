@@ -13,7 +13,7 @@ import (
 var Dbmap = initDb()
 
 func initDb() *gorp.DbMap {
-	connection := " config.Get().DBUserName" + ":" + config.Get().DBPassword + "@tcp(" + config.Get().DBHostReader + ":" + config.Get().DBPort + ")/" + config.Get().DBName
+	connection := config.Get().DBUserName + ":" + config.Get().DBPassword + "@tcp(" + config.Get().DBHostReader + ":" + config.Get().DBPort + ")/" + config.Get().DBName
 	db, err := sql.Open("mysql", connection)
 	checkErr(err, "sql.Open failed")
 	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.MySQLDialect{"InnoDB", "UTF8"}}

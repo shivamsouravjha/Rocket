@@ -2,12 +2,12 @@ package db
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	rabbitMQ "rocket/helper/rabbitmq"
+	"time"
+
 	db "rocket/helper/sql"
-	"rocket/structure"
 	requestStruct "rocket/structure/request"
 	"strings"
 )
@@ -20,13 +20,11 @@ func AddProduct(ctx context.Context, userProductData requestStruct.PostProduct) 
 		return errors.New("no user found")
 	}
 	images := strings.Join(userProductData.ProductImages, ",")
-	product := structure.Product{
-		ProductName:        userProductData.ProductName,
-		ProductDescription: userProductData.ProductDescription,
-		CompressedImages:   images,
-		ProductPrice:       userProductData.ProductPrice,
+	createdProduct, err := db.Dbmap.Exec("INSERT INTO products (product_name, product_description,  product_price, product_images,created_at,updated_at,compressed_product_images) VALUES(?,?,?,?,?,?,?) ", userProductData.ProductName, userProductData.ProductDescription, userProductData.ProductPrice, images, time.Now(), time.Now(), "")
+	if err != nil {
+		return err
 	}
-	insertedSeriesIdPush, _ := json.Marshal(product)
-	rabbitMQ.RunPublish("SeriesContent", string(insertedSeriesIdPush))
+	productID, _ := createdProduct.LastInsertId()
+	rabbitMQ.RunPublish("image", fmt.Sprint(productID))
 	return nil
 }

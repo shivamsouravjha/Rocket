@@ -4,6 +4,7 @@ CREATE TABLE products (
     product_description TEXT,   
     product_price DECIMAL(10, 2),  
     compressed_product_images TEXT,   
+    product_images TEXT,
     created_at TIMESTAMP,    
     updated_at TIMESTAMP 
 );

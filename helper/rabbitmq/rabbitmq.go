@@ -2,6 +2,7 @@ package rabbitMQ
 
 import (
 	"fmt"
+	internal "rocket/controllers/Internal"
 
 	"github.com/streadway/amqp"
 )
@@ -111,10 +112,11 @@ func Run(channel string) {
 	)
 	forever := make(chan bool)
 
-	for d := range msgs {
-		fmt.Printf("Recieved Message: %s\n", d.Body)
-	}
-
+	go func() {
+		for d := range msgs {
+			internal.StoreProduct((d.Body))
+		}
+	}()
 	fmt.Println("Successfully Connected to our RabbitMQ Instance")
 	fmt.Println(" [*] - Waiting for messages")
 	<-forever
