@@ -5,32 +5,27 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"sync"
 )
 
-func DownloadImage(imageLink string, wg *sync.WaitGroup, errUpload chan error) {
-	defer wg.Done()
-	filePath := "image.jpg" // Replace with the desired file path to save the image
+func DownloadImage(imageLink string, productID string, img int) (string, error) {
+	filePath := fmt.Sprintf("images/%s_%d_img.jpg", productID, img)
 	response, err := http.Get(imageLink)
 	if err != nil {
 		fmt.Println("Error:", err)
-		errUpload <- err
-		return
+		return "", err
 	}
 	defer response.Body.Close()
 	file, err := os.Create(filePath)
 	if err != nil {
 		fmt.Println("Error:", err)
-		errUpload <- err
-		return
+		return "", err
 	}
 	defer file.Close()
 	_, err = io.Copy(file, response.Body)
 	if err != nil {
 		fmt.Println("Error:", err)
-		errUpload <- err
-		return
+		return "", err
 	}
-	fmt.Println("Image downloaded successfully.")
-	return
+	fmt.Println("Image downloaded successfully:", filePath)
+	return filePath, nil
 }
