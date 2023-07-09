@@ -114,7 +114,11 @@ func Run(channel string) {
 
 	go func() {
 		for d := range msgs {
-			internal.StoreProduct((d.Body))
+			uploadError := internal.StoreProduct(d.Body)
+			if uploadError != nil {
+				fmt.Println(string(d.Body))
+				RunPublish("image", string(d.Body))
+			}
 		}
 	}()
 	fmt.Println("Successfully Connected to our RabbitMQ Instance")
@@ -138,7 +142,7 @@ func RunPublish(channel string, message string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println("Successfull published message", message)
+	fmt.Println("Successfull published message", string(message))
 
 	return nil
 }
