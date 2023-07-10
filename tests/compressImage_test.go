@@ -49,3 +49,5 @@ func TestCompressImages(t *testing.T) {
 		t.Errorf("No compressed images found for product ID %s", productID)
 	}
 }
+
+///APP_ENV=test go test

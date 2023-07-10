@@ -31,14 +31,14 @@ func CompressImages(productID string) error {
 	for i, image := range images {
 		go func(index int, image string) {
 			defer wg.Done()
-
+			fmt.Println(index)
 			path, err := imagedownloader.DownloadImage(image, productID, index)
 			if err != nil {
 				errUpload <- err
 				return
 			}
-
 			paths[index] = path
+			fmt.Println(paths[index], "sds")
 		}(i, image)
 	}
 
@@ -48,7 +48,6 @@ func CompressImages(productID string) error {
 	for err := range errUpload {
 		fmt.Println(err)
 	}
-
 	if len(errUpload) > 0 {
 		return errors.New("failed to upload image(s)")
 	}
@@ -60,6 +59,5 @@ func CompressImages(productID string) error {
 		fmt.Println(err.Error())
 		return err
 	}
-
 	return nil
 }
