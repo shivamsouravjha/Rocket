@@ -1,8 +1,9 @@
-package db
+package test
 
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	product "rocket/helper/db"
 	requestStruct "rocket/structure/request"
 	"strings"
@@ -18,10 +19,10 @@ func TestAddProduct(t *testing.T) {
 
 	productData := requestStruct.PostProduct{
 		UserID:             1,
-		ProductName:        "SampleProduct",
+		ProductName:        "SampleProductsData",
 		ProductDescription: "This is a test product",
 		ProductPrice:       10.00,
-		ProductImages:      []string{"https://example.com/image.jpg"},
+		ProductImages:      []string{"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHZAq08u4YaR0Jsu2CgeptdxC74y-9QEeFYEAb6YHP&s"},
 	}
 
 	ctx := context.Background()
@@ -47,6 +48,8 @@ func TestAddProduct(t *testing.T) {
 		var updatedAt string
 		var compressed_product_images string
 		err := rows.Scan(&productID, &productName, &productDescription, &productPrice, &compressed_product_images, &productImages, &createdAt, &updatedAt)
+		fmt.Println(productImages)
+
 		if err != nil {
 			t.Errorf("Error scanning row: %v", err)
 		}
@@ -60,7 +63,7 @@ func TestAddProduct(t *testing.T) {
 			t.Errorf("Expected product price to be %f, got %f", productData.ProductPrice, productPrice)
 		}
 		if productImages != strings.Join(productData.ProductImages, ",") {
-			t.Errorf("Expected product images to be %s, got %s", productData.ProductImages, productImages)
+			t.Errorf("Expected product images to be %s, got %s", strings.Join(productData.ProductImages, ","), productImages)
 		}
 	} else {
 		t.Errorf("No product found with product name %s", productData.ProductName)

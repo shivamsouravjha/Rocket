@@ -9,13 +9,18 @@ import (
 
 func DownloadImage(imageLink string, productID string, img int) (string, error) {
 	filePath := fmt.Sprintf("images/%s_%d_img.jpg", productID, img)
+	if os.Getenv("APP_ENV") == "test" {
+		filePath = fmt.Sprintf("../images/%s_%d_img.jpg", productID, img)
+	}
 	response, err := http.Get(imageLink)
 	if err != nil {
-		fmt.Println("Error:", err)
+		fmt.Println("Error getting link:", err)
 		return "", err
 	}
 	defer response.Body.Close()
+
 	file, err := os.Create(filePath)
+
 	if err != nil {
 		fmt.Println("Error:", err)
 		return "", err
