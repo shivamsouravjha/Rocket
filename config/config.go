@@ -37,6 +37,9 @@ func init() {
 	}
 
 	configFilePath := "./config/.env"
+	if os.Getenv("APP_ENV") == "test" {
+		configFilePath = "../config/.env"
+	}
 	fmt.Println("reading env from: ", configFilePath)
 
 	e := godotenv.Load(configFilePath)
