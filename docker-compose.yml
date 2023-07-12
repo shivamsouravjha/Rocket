@@ -24,8 +24,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: newpassword
       MYSQL_DATABASE: productio
-      MYSQL_USER: root
-      MYSQL_PASSWORD: newpassword
     networks:
       - rabbitmq_go_net
 
