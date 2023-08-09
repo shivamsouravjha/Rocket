@@ -9,6 +9,6 @@ import (
 func v0Routes(route *gin.RouterGroup) {
 	v1Routes := route.Group("/products")
 	{
-		v1Routes.POST("/create", post.AddProduct)
+		v1Routes.GET("/create", post.AddProduct)
 	}
 }

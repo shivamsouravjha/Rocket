@@ -2,7 +2,6 @@ package post
 
 import (
 	"net/http"
-	"rocket/helper/db"
 	requestStruct "rocket/structure/request"
 	responseStruct "rocket/structure/response"
 	"rocket/utils"
@@ -16,14 +15,14 @@ func AddProduct(c *gin.Context) {
 		c.JSON(422, utils.SendErrorResponse(err))
 		return
 	}
-	err := db.AddProduct(c, addProductStruct)
-	if err != nil {
-		resp := responseStruct.SuccessResponse{}
-		resp.Message = err.Error()
-		resp.Status = "false"
-		c.JSON(http.StatusInternalServerError, resp)
-		return
-	}
+	// err := db.AddProduct(c, addProductStruct)
+	// if err != nil {
+	// 	resp := responseStruct.SuccessResponse{}
+	// 	resp.Message = err.Error()
+	// 	resp.Status = "false"
+	// 	c.JSON(http.StatusInternalServerError, resp)
+	// 	return
+	// }
 	resp := responseStruct.SuccessResponse{}
 	resp.Message = "Product added successfully"
 	resp.Status = "true"
