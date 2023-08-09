@@ -2,19 +2,17 @@ package post
 
 import (
 	"net/http"
-	requestStruct "rocket/structure/request"
 	responseStruct "rocket/structure/response"
-	"rocket/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
 func AddProduct(c *gin.Context) {
-	addProductStruct := requestStruct.PostProduct{}
-	if err := c.ShouldBind(&addProductStruct); err != nil {
-		c.JSON(422, utils.SendErrorResponse(err))
-		return
-	}
+	// addProductStruct := requestStruct.PostProduct{}
+	// if err := c.ShouldBind(&addProductStruct); err != nil {
+	// 	c.JSON(422, utils.SendErrorResponse(err))
+	// 	return
+	// }
 	// err := db.AddProduct(c, addProductStruct)
 	// if err != nil {
 	// 	resp := responseStruct.SuccessResponse{}
