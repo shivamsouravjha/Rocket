@@ -23,7 +23,7 @@ jobs:
         
       - name: Test
         run: |
-          sudo -E env "PATH=$PATH" ./Keploy test --c /tmp/Rocket/rocket --delay 10
+          sudo -E env "PATH=$PATH" ./Keploy test --c ~/Rocket/rocket --delay 10
         env:
           ENABLE_DEDUP: true
           ENABLE_TELEMETRY: false
